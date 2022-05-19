@@ -44,7 +44,7 @@ public class StepTracker {
                     System.out.println("Ошибка! Введенное значение меньше 0");
                 } else {
                     monthToData[month - 1].numberOfSteps[day - 1] = steps;
-                    System.out.println("Количество шагов за " + day + " " + getMonthName(month));
+                    System.out.println("Успех! Количество шагов за " + day + " " + getMonthName(month) + ": " + monthToData[month - 1].numberOfSteps[day - 1]);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class StepTracker {
 
     void printStatistics() {
         String steps = "";
-        System.out.println("Введите порядковый номер месяца, за который хотите ввести количество шагов:");
+        System.out.println("Введите порядковый номер месяца, за который хотите увидеть статистику:");
         int month = scanner.nextInt();
         if (month < 0 || month > 12) {
             System.out.println("Ошибка! Введенное значение находится вне диапазона 1 ... 12");
@@ -155,7 +155,7 @@ public class StepTracker {
             System.out.println("Статистика за " + getMonthName(month) + ":");
             System.out.println(steps);
             System.out.println("Общее количество шагов за месяц: " + stepsPerMonth);
-            System.out.println("Максимальное пройденное количество шагов за месяц: " + getMaxSteps(month));
+            System.out.println("Максимальное пройденное количество шагов в день за месяц: " + getMaxSteps(month));
             System.out.println("Среднее количество шагов: " + getAverageSteps(month));
             System.out.println("Пройденная дистанция (в км): " + Converter.convertStepsToDistance(stepsPerMonth));
             System.out.println("Количество сожжённых килокалорий: " + Converter.convertStepsToKilocalories(stepsPerMonth));
@@ -164,7 +164,7 @@ public class StepTracker {
 
     }
 
-    class MonthData {
+    static class MonthData {
         int[] numberOfSteps;
 
         //Конструктор
