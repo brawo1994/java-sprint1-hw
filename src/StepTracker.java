@@ -2,12 +2,12 @@ import java.util.Scanner;
 
 public class StepTracker {
 
-    static int targetStepsCount;
-    static Scanner scanner = new Scanner(System.in);
-    static MonthData[] monthToData;
+    int targetStepsCount;
+    Scanner scanner = new Scanner(System.in);
+    MonthData[] monthToData;
 
     //Конструктор
-    public StepTracker() {
+    StepTracker() {
         monthToData = new MonthData[12];
         for (int i = 0; i < monthToData.length; i++) {
             monthToData[i] = new MonthData();
@@ -15,7 +15,7 @@ public class StepTracker {
         targetStepsCount = 10000;
     }
 
-    static void changeTargetStepsCount() {
+    void changeTargetStepsCount() {
         System.out.println("Введите новое значение цели по количеству шагов в день:");
         int count = scanner.nextInt();
         if (count >= 0) {
@@ -27,7 +27,7 @@ public class StepTracker {
 
     }
 
-    static void enterStepsCountPerDay() {
+    void enterStepsCountPerDay() {
         System.out.println("Введите порядковый номер месяца, за который хотите ввести количество шагов:");
         int month = scanner.nextInt();
         if (month < 1 || month > 12) {
@@ -44,19 +44,13 @@ public class StepTracker {
                     System.out.println("Ошибка! Введенное значение меньше 0");
                 } else {
                     monthToData[month - 1].numberOfSteps[day - 1] = steps;
-                    monthToData[month - 1].steps = monthToData[month - 1].steps + steps;
-                    monthToData[month - 1].distance = monthToData[month - 1].distance + Converter.converStepsToDistance(steps);
-                    monthToData[month - 1].kilocalories = monthToData[month - 1].kilocalories + Converter.converStepsToKilocalories(steps);
-                    monthToData[month - 1].maxSteps = getMaxSteps(month);
-                    monthToData[month - 1].averageSteps = getAverageSteps(month);
-                    monthToData[month - 1].bestSeries = getBestSeries(month);
                     System.out.println("Количество шагов за " + day + " " + getMonthName(month));
                 }
             }
         }
     }
 
-    static String getMonthName(int month) {
+    String getMonthName(int month) {
         String monthName = "";
         switch (month) {
             case (1):
@@ -99,7 +93,7 @@ public class StepTracker {
         return monthName;
     }
 
-    static int getMaxSteps(int month) {
+    int getMaxSteps(int month) {
         int maxSteps = 0;
         for (int i = 0; i < monthToData[month - 1].numberOfSteps.length; i++) {
             if (maxSteps < monthToData[month - 1].numberOfSteps[i]) {
@@ -109,7 +103,7 @@ public class StepTracker {
         return maxSteps;
     }
 
-    static double getAverageSteps(int month) {
+    double getAverageSteps(int month) {
         int stepsCount = 0;
         for (int i = 0; i < monthToData[month - 1].numberOfSteps.length; i++) {
             stepsCount = stepsCount + monthToData[month - 1].numberOfSteps[i];
@@ -117,7 +111,15 @@ public class StepTracker {
         return stepsCount / monthToData[month - 1].numberOfSteps.length;
     }
 
-    static int getBestSeries(int month) {
+    int getSumSteps(int month) {
+        int sumSteps = 0;
+        for (int i = 0; i < monthToData[month - 1].numberOfSteps.length; i++) {
+            sumSteps = sumSteps + monthToData[month - 1].numberOfSteps[i];
+        }
+        return sumSteps;
+    }
+
+    int getBestSeries(int month) {
         int bestSeriesLocal = 0;
         int bestSeries = 0;
         for (int i = 0; i < monthToData[month - 1].numberOfSteps.length; i++) {
@@ -136,7 +138,7 @@ public class StepTracker {
         return bestSeries;
     }
 
-    static void printStatistics() {
+    void printStatistics() {
         String steps = "";
         System.out.println("Введите порядковый номер месяца, за который хотите ввести количество шагов:");
         int month = scanner.nextInt();
@@ -149,36 +151,25 @@ public class StepTracker {
                     steps = steps + ", ";
                 }
             }
+            int stepsPerMonth = getSumSteps(month);
             System.out.println("Статистика за " + getMonthName(month) + ":");
             System.out.println(steps);
-            System.out.println("Общее количество шагов за месяц: " + monthToData[month - 1].steps);
-            System.out.println("Максимальное пройденное количество шагов за месяц: " + monthToData[month - 1].maxSteps);
-            System.out.println("Среднее количество шагов: " + monthToData[month - 1].averageSteps);
-            System.out.println("Пройденная дистанция (в км): " + monthToData[month - 1].distance);
-            System.out.println("Количество сожжённых килокалорий: " + monthToData[month - 1].kilocalories);
-            System.out.println("Лучшая серия: " + monthToData[month - 1].bestSeries);
+            System.out.println("Общее количество шагов за месяц: " + stepsPerMonth);
+            System.out.println("Максимальное пройденное количество шагов за месяц: " + getMaxSteps(month));
+            System.out.println("Среднее количество шагов: " + getAverageSteps(month));
+            System.out.println("Пройденная дистанция (в км): " + Converter.convertStepsToDistance(stepsPerMonth));
+            System.out.println("Количество сожжённых килокалорий: " + Converter.convertStepsToKilocalories(stepsPerMonth));
+            System.out.println("Лучшая серия: " + getBestSeries(month));
         }
 
     }
 
     class MonthData {
         int[] numberOfSteps;
-        int steps;
-        int maxSteps;
-        double averageSteps;
-        double distance;
-        double kilocalories;
-        int bestSeries;
 
         //Конструктор
-        public MonthData() {
+        MonthData() {
             numberOfSteps = new int[30];
-            steps = 0;
-            maxSteps = 0;
-            averageSteps = 0;
-            distance = 0;
-            kilocalories = 0;
-            bestSeries = 0;
         }
     }
 }

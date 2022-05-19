@@ -1,9 +1,9 @@
 public class Converter {
-    static double converStepsToDistance(int step) {
-        return step * 75 / 1000;
+    static double convertStepsToDistance(int step) {
+        return step * 75 / 100000;
     }
 
-    static double converStepsToKilocalories(int step) {
+    static double convertStepsToKilocalories(int step) {
         return step * 50 / 1000;
     }
 }
