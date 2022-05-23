@@ -9,17 +9,23 @@ public class Main {
             printMenu();
             int command = scanner.nextInt();
 
-            if (command == 1) {
-                stepTracker.enterStepsCountPerDay();
-            } else if (command == 2) {
-                stepTracker.printStatistics();
-            } else if (command == 3) {
-                stepTracker.changeTargetStepsCount();
-            } else if (command == 0) {
-                System.out.println("Выход");
-                break;
-            } else {
-                System.out.println("Извините, такой команды пока нет.");
+            switch (command) {
+                case (1):
+                    stepTracker.enterStepsCountPerDay();
+                    break;
+                case (2):
+                    stepTracker.printStatistics();
+                    break;
+                case (3):
+                    stepTracker.changeTargetStepsCount();
+                    break;
+                case (0):
+                    System.out.println("Выход");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Извините, такой команды пока нет.");
+                    break;
             }
         }
 

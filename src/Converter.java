@@ -1,9 +1,11 @@
 public class Converter {
     static double convertStepsToDistance(int step) {
-        return step * 75 / 100000;
+        final double kilometersInStep = 0.00075;
+        return step * kilometersInStep;
     }
 
     static double convertStepsToKilocalories(int step) {
-        return step * 50 / 1000;
+        final double kilocaloriesInStep = 0.05;
+        return step * kilocaloriesInStep;
     }
 }

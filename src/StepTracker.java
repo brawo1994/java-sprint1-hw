@@ -44,7 +44,21 @@ public class StepTracker {
                     System.out.println("Ошибка! Введенное значение меньше 0");
                 } else {
                     monthToData[month - 1].numberOfSteps[day - 1] = steps;
-                    System.out.println("Успех! Количество шагов за " + day + " " + getMonthName(month) + ": " + monthToData[month - 1].numberOfSteps[day - 1]);
+
+                    /*Не уверен что тут StringBuilder лучше чем String,
+                    так как за вызов метода строка формируется всего один раз
+                    и больше не изменяется
+                    Но спасибо за подсказку, поменял String на StringBuilder
+                    в методе printStatistics в цикле где склеивается статистика по дням месяца*/
+
+                    StringBuilder outSuccessful = new StringBuilder();
+                    outSuccessful.append("Успех! Количество шагов за ");
+                    outSuccessful.append(day);
+                    outSuccessful.append(" ");
+                    outSuccessful.append(getMonthName(month));
+                    outSuccessful.append(": ");
+                    outSuccessful.append(monthToData[month - 1].numberOfSteps[day - 1]);
+                    System.out.println(outSuccessful);
                 }
             }
         }
@@ -139,16 +153,16 @@ public class StepTracker {
     }
 
     void printStatistics() {
-        String steps = "";
+        StringBuilder steps = new StringBuilder();
         System.out.println("Введите порядковый номер месяца, за который хотите увидеть статистику:");
         int month = scanner.nextInt();
         if (month < 0 || month > 12) {
             System.out.println("Ошибка! Введенное значение находится вне диапазона 1 ... 12");
         } else {
             for (int i = 0; i < monthToData[month - 1].numberOfSteps.length; i++) {
-                steps = steps + (i + 1) + " день: " + monthToData[month - 1].numberOfSteps[i];
+                steps.append(i + 1).append(" день: ").append(monthToData[month - 1].numberOfSteps[i]);
                 if (i < monthToData[month - 1].numberOfSteps.length - 1) {
-                    steps = steps + ", ";
+                    steps.append(", ");
                 }
             }
             int stepsPerMonth = getSumSteps(month);
